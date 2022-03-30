@@ -25,15 +25,45 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Configure Workload Identity Federation and generate an access token.
-    #- id: 'auth'
-    #  name: 'Authenticate to Google Cloud'
-    #  uses: 'google-github-actions/auth@v0'
-    #  with:
-    #    workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-    #    service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+    - name: Get short SHA
+      run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
 
-    # Alternative option - authentication via credentials json
+    - name: Build
+      uses: docker/build-push-action@v2
+      with:
+        tags: securethecloud/my-tweet-app-lacework:${{ env.GHA_SHA }},securethecloud/my-tweet-app-lacework:latest
+        load: true
+
+    - name: Scan container images for vulnerabitilies using Lacework
+      uses: lacework/lw-scanner-action@v0.6.0
+
+      with:
+        LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
+        LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
+        IMAGE_NAME: securethecloud/my-tweet-app-lacework
+        IMAGE_TAG: ${{ env.GHA_SHA }}
+        SAVE_RESULTS_IN_LACEWORK: true
+        SAVE_BUILD_REPORT: true
+        BUILD_REPORT_FILE_NAME: myreport.html
+        FAIL_BUILD: false
+        SEVERITY_THRESHOLD: fixable
+
+     - name: Login to DockerHub
+       uses: docker/login-action@v1
+
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+     - name: tag and push
+       uses: docker/build-push-action@v2
+
+       with:
+         push: true
+         tags: ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }},ericsixlacework/my-tweet-app-lacework:latest
+
+
+    # GKE - Alternative option - authentication via credentials json
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'
       with:

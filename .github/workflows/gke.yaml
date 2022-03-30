@@ -12,7 +12,7 @@ env:
   DEPLOYMENT_NAME: my-tweet-app-lacework
 
 jobs:
-  setup-and-deploy:
+  build:
     name: Setup and Deploy
     runs-on: ubuntu-latest
 

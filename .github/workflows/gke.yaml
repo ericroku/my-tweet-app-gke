@@ -7,7 +7,7 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: e6-gke-cluster001    
   GKE_ZONE: us-central1-c    
-  DEPLOYMENT_NAME: my-tweet-app-lacework
+  DEPLOYMENT_NAME: my-tweet-app
 jobs:
   build:
     runs-on: ubuntu-latest

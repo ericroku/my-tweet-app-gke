@@ -53,4 +53,7 @@ The Github Actions tasks defined inside [docker.yml](.github/workflows) will be 
 * LW_ACCESS_TOKEN: the access token created with the Lacework Inline Scanner integration.
 * DOCKERHUB_USERNAME: Your Dockerhub Username
 * DOCKERHUB_TOKEN: Your Dockerhub access token
+* GKE_PROJECT: your GKE project name
+* GKE_SA_KEY: your GKE account json
+
 

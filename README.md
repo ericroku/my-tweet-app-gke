@@ -1,5 +1,5 @@
 #
-# my-tweet-app-lacework	
+# my-tweet-app-lacework-gke
 #
 Docker demo example application launched into GKE
 

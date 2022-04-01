@@ -61,7 +61,7 @@ jobs:
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
-        kustomize edit set image ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }}
+        kustomize edit set image my-tweet-app=ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }}
         kubectl apply -f deployment/deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
         kubectl get services -o wide

@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: my-tweet-app
-                  image: ericsixlacework/my-tweet-app-lacework:prod-gke
+                  image: ericsixlacework/my-tweet-app-lacework
                   imagePullPolicy: Always
                   ports:
                     - containerPort: 5000

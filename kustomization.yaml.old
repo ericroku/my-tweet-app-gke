@@ -4,8 +4,6 @@ resources:
 - deployment.yaml
 - services.yaml
 images:
-- name: ericsixlacework/my-tweet-app-lacework
-  newTag: f46ed54
 - name: my-tweet-app
   newName: ericsixlacework/my-tweet-app-lacework
   newTag: f46ed54

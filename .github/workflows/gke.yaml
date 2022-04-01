@@ -46,7 +46,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }},ericsixlacework/my-tweet-app-lacework:latest
+        tags: ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }},ericsixlacework/my-tweet-app-lacework:prod-gke
     # GKE - Alternative option - authentication via credentials json
     - id: 'auth'
       uses: 'google-github-actions/auth@v0'

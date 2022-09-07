@@ -35,8 +35,7 @@ jobs:
         SAVE_RESULTS_IN_LACEWORK: true
         SAVE_BUILD_REPORT: true
         BUILD_REPORT_FILE_NAME: myreport.html
-        FAIL_BUILD: false
-        SEVERITY_THRESHOLD: fixable
+        SCAN_LIBRARY_PACKAGES: true
     - name: Login to DockerHub
       uses: docker/login-action@v1
       with:

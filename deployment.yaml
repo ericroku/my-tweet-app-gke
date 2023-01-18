@@ -1,0 +1,33 @@
+-apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: my-tweet-app
+    namespace: my-tweet-app
+    labels:
+        app: my-tweet-app
+spec:
+    selector:
+        matchLabels:
+            app: my-tweet-app
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: my-tweet-app
+        spec:
+            containers:
+                - name: my-tweet-app
+                  image: ericsixlacework/my-tweet-app-lacework:prod-gke
+                  imagePullPolicy: Always
+                  ports:
+                    - containerPort: 5000
+                  securityContext:
+                    allowPrivilegeEscalation: false
+                    privileged: false
+                    readOnlyRootFilesystem: true
+                    capabilities:
+                        drop:
+                            - NET_RAW
+                            - ALL
+
+

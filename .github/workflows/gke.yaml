@@ -55,7 +55,7 @@ jobs:
       uses: 'google-github-actions/get-gke-credentials@v1'
       with:
         cluster_name: 'lw-se-int-esix-gke-lacework-demo'
-        location: 'us-centra1-c'
+        location: 'us-centra1'
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK

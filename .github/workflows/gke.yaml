@@ -63,6 +63,7 @@ jobs:
     # Get the GKE credentials so we can deploy to the cluster
     - run: |-
        gcloud container clusters get-credentials "lw-se-int-esix-gke-lacework-demo" --zone "us-central1"
+       gcloud components install gke-gcloud-auth-plugin
     #setup kustomize
     - name: Set up Kustomize
       run: |-

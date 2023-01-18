@@ -51,11 +51,11 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ secrets.GKE_SA_KEY }}'
-    #- id: 'get-credentials'
-    #  uses: 'google-github-actions/get-gke-credentials@v1'
-    #  with:
-    #    cluster_name: 'lw-se-int-esix-gke-lacework-demo'
-    #    location: 'us-central1-b'
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: 'lw-se-int-esix-gke-lacework-demo'
+        location: 'us-central1'
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK

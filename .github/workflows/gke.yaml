@@ -5,7 +5,7 @@ on:
     - main
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: lw-se-int-gke-demo   
+  GKE_CLUSTER: lw-se-int-esix-gke-demo  
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: my-tweet-app
 jobs:
@@ -54,7 +54,7 @@ jobs:
     - id: 'get-credentials'
       uses: 'google-github-actions/get-gke-credentials@v1'
       with:
-        cluster_name: 'lw-se-int-gke-lacework-demo'
+        cluster_name: 'lw-se-int-esix-gke-demo'
         location: 'us-central1'
 
     # Setup gcloud CLI
@@ -62,7 +62,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v1
     # Get the GKE credentials so we can deploy to the cluster
     - run: |-
-       gcloud container clusters get-credentials "lw-se-int-gke-lacework-demo" --zone "us-central1"
+       gcloud container clusters get-credentials "lw-se-int-esix-gke-demo" --zone "us-central1"
        gcloud components install gke-gcloud-auth-plugin
     #setup kustomize
     - name: Set up Kustomize

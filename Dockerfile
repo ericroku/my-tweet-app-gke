@@ -1,8 +1,8 @@
 # Use Alpine as base
-FROM alpine:3.10
+FROM alpine:3.18.0
 
 # Maintainer
-LABEL maintainer="andreas@lacework.net"
+LABEL maintainer="eric.six@lacework.net"
 
 RUN apk add --no-cache py3-pip
 

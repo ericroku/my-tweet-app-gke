@@ -28,10 +28,10 @@ jobs:
       run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
     - name: Build and push Docker image
       run: |
-      gcloud auth configure-docker "${env.REGION}-docker.pkg.dev"
-      docker pull "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:latest"
-      docker build -t "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework" .
-      docker push "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:${{ env.GHA_SHA }}"
+         gcloud auth configure-docker "${env.REGION}-docker.pkg.dev"
+         docker pull "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:latest"
+         docker build -t "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework" .
+         docker push "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:${{ env.GHA_SHA }}"
     - name: Scan container images for vulnerabitilies using Lacework
       uses: lacework/lw-scanner-action@v1.2.0 
       with:

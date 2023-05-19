@@ -39,7 +39,7 @@ jobs:
          docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
          docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
          docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-         echo "BUILD : HASH ---   $GHA_SHA"
+         echo "BUILD : HASH BUILD---   $GHA_SHA"
     # gcloud artifacts docker tags add us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$env.GHA_SHA us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest
     - name: Scan container images for vulnerabitilies using Lacework
       uses: lacework/lw-scanner-action@v1.2.0 

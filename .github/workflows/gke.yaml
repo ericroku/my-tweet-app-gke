@@ -27,16 +27,16 @@ jobs:
       run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
     - name: Build and push Docker image
       run: |
-         gcloud auth configure-docker "${env.REGION}-docker.pkg.dev"
-         docker pull "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:latest"
-         docker build -t "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework" .
-         docker push "${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework:${{ env.GHA_SHA }}"
+         gcloud auth configure-docker "us-central1-docker.pkg.dev"
+         docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
+         docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework" .
+         docker push "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}"
     - name: Scan container images for vulnerabitilies using Lacework
       uses: lacework/lw-scanner-action@v1.2.0 
       with:
         LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
         LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
-        IMAGE_NAME: ${env.REGION}-docker.pkg.dev/${env.PROJECT_ID}/${env.ARTIFACT_REGISTRY}/my-tweet-app-lacework
+        IMAGE_NAME: us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework
         IMAGE_TAG: ${{ env.GHA_SHA }}
         SAVE_RESULTS_IN_LACEWORK: true
         SAVE_BUILD_REPORT: true
@@ -67,7 +67,7 @@ jobs:
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
-        ./kustomize edit set image ericsixlacework/my-tweet-app-lacework:${{ env.GHA_SHA }}
+        ./kustomize edit set image esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}
         ./kustomize build . | kubectl apply -k .
         kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
         kubectl get services -o wide

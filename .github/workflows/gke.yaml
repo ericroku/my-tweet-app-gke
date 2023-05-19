@@ -8,7 +8,7 @@ env:
   GKE_CLUSTER: lw-se-int-esix-gke-demo  
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: my-tweet-app
-  REGION: us-centra1-c
+  REGION: us-central1
   ARTIFACT_REGISTRY: lw-se-int-esix/esixrepo/
 jobs:
   build:

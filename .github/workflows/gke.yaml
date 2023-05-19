@@ -101,8 +101,8 @@ jobs:
     # Deploy sample image to the GKE cluster
       - name: Deploy
         run: |-
-          ./kustomize edit set image esixrepo/my-tweet-app-lacework:latest
+          ./kustomize edit set image us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest
           ./kustomize build . | kubectl apply -k .
           kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
-          kubectl get services -o wide
+          kubectl get services -A -o wide
 

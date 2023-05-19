@@ -8,7 +8,6 @@ env:
   GKE_CLUSTER: lw-se-int-esix-gke-demo  
   GKE_ZONE: us-central1-c
   DEPLOYMENT_NAME: my-tweet-app
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   REGION: us-centra1-c
   ARTIFACT_REGISTRY: lw-se-int-esix/esixrepo/
 jobs:
@@ -43,7 +42,7 @@ jobs:
         SAVE_BUILD_REPORT: true
         BUILD_REPORT_FILE_NAME: lwreport.html
         SCAN_LIBRARY_PACKAGES: true
-    - name: push
+        
     # GKE - Alternative option - authentication via credentials json
     - id: 'auth'
       uses: 'google-github-actions/auth@v1'

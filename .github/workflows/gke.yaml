@@ -36,7 +36,7 @@ jobs:
     - name: Build and push Docker image
       run: |
          gcloud auth configure-docker "us-central1-docker.pkg.dev"
-         docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
+         docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
          docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework" .
          docker push "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}"
     - name: Scan container images for vulnerabitilies using Lacework

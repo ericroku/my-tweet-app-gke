@@ -21,6 +21,11 @@ jobs:
     # Setup gcloud CLI
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
+    # GCP_SA_GITHUB
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_GITHUB }}'
     - name: Checkout
       uses: actions/checkout@v3
     - name: Get short SHA

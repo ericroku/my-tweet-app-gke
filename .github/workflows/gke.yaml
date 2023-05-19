@@ -21,6 +21,8 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
+    - name: Use Checkout
+      uses: 'actions/checkout@v3'
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v0.4.0'
@@ -29,9 +31,6 @@ jobs:
     # Setup gcloud CLI
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
-    
-    - name: Checkout
-      uses: actions/checkout@v3
     - name: Get short SHA
       run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
     - name: Build and push Docker image

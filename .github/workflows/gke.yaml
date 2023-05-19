@@ -82,9 +82,9 @@ jobs:
           location: 'us-central1'
 
       - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v1
         with:
-          version: '357.0.0'
+          version: '>= 363.0.0'
           project_id: ${{ env.PROJECT_ID }}
           service_account_key: ${{ env.SERVICE_ACCOUNT_KEY }}
 

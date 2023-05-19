@@ -81,7 +81,14 @@ jobs:
           cluster_name: 'lw-se-int-esix-gke-demo'
           location: 'us-central1'
 
-    
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          version: '357.0.0'
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ env.SERVICE_ACCOUNT_KEY }}
+
+  
     # Get the GKE credentials so we can deploy to the cluster
       - run: |-
           gcloud container clusters get-credentials "lw-se-int-esix-gke-demo" --zone "us-central1"

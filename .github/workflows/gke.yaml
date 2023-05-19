@@ -29,10 +29,13 @@ jobs:
       with:
        credentials_json: '${{ secrets.GCP_SA_GITHUB }}'
     # Setup gcloud CLI
+    
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
+    
     - name: Get short SHA
       run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+    
     - name: Build and push Docker image
       run: |
          gcloud auth configure-docker "us-central1-docker.pkg.dev"
@@ -40,7 +43,7 @@ jobs:
          docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
          docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
          echo "BUILD : HASH BUILD---   $GHA_SHA"
-    # gcloud artifacts docker tags add us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$env.GHA_SHA us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest
+    
     - name: Scan container images for vulnerabitilies using Lacework
       uses: lacework/lw-scanner-action@v1.2.0 
       with:
@@ -52,5 +55,33 @@ jobs:
         SAVE_BUILD_REPORT: true
         BUILD_REPORT_FILE_NAME: lwreport.html
         SCAN_LIBRARY_PACKAGES: true
+    
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GKE_SA_KEY }}'
+    
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v1'
+      with:
+        cluster_name: 'lw-se-int-esix-gke-demo'
+        location: 'us-central1'
 
+    
+    # Get the GKE credentials so we can deploy to the cluster
+    - run: |-
+       gcloud container clusters get-credentials "lw-se-int-esix-gke-demo" --zone "us-central1"
+       gcloud components install gke-gcloud-auth-plugin
+    #setup kustomize
+    - name: Set up Kustomize
+      run: |-
+        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+        chmod u+x ./kustomize
+    # Deploy sample image to the GKE cluster
+    - name: Deploy
+      run: |-
+        ./kustomize edit set image esixrepo/my-tweet-app-lacework:latest
+        ./kustomize build . | kubectl apply -k .
+        kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
+        kubectl get services -o wide
 

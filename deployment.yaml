@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: my-tweet-app
-                  image: ericsixlacework/my-tweet-app-lacework:prod-gke
+                  image: us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest
                   imagePullPolicy: Always
                   ports:
                     - containerPort: 5000

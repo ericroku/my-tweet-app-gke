@@ -1,13 +1,13 @@
 #
 # my-tweet-app-lacework-gke
 #
-Docker demo example application launched into GKE
+GAR demo example application built and launched into GKE
 
 ![Picture of the example application](https://github.com/automatecloud/my-tweet-app-lacework/blob/master/Pictures/picturenew.png?raw=true)
 
 ## For what is this repository?
 
-This application was designed to show how easy it is to integrate Lacework Vulnerability Scanner with Visual Studio Code and GitHub Actions and fully auto manage the deployment of the application inside a AWS EKSKubernetes cluster.
+This application was designed to show how easy it is to integrate Lacework Vulnerability Scanner with Visual Studio Code and GitHub Actions and fully auto manage the deployment of the application inside a GKE Kubernetes cluster with a base image hosted on GAR.
 
 It is using a simple Docker container image based on Alpine, Python and Flask as componentes that have some critical and medium vulnerabilities.
 
@@ -20,7 +20,7 @@ To be able to use it you must have:
 3. A GKE Kubernetes cluster
 4. Your GKE access key that is allowed to manage the GKE cluster.
 5. A Lacework instance and an inline scanner token that can be used for the security scan.
-6. A DockerHub account that can be used to save your images build via Github Actions.
+6. A GAR Repo that can be used to save your images build via Github Actions.
 
 ### Create a Lacework Inline Scanner 
 
@@ -39,15 +39,15 @@ It is important to use the right Task, as you otherwise might see some diffs bet
 
 ### Create an GKE cluster for your runtime.
 
-Before you can use the full Github Actions deployment you need to create an GKE cluster, so we can deploy the application to. 
+Before you can use the full Github Actions deployment you need to create an GKE cluster, so we can deploy the application to. If you're planning to use GAR and IAM role based security, make sure your node pools are created with the correct scopes (https://cloud.google.com/artifact-registry/docs/access-control#gke-scope.) Note : terraform doesn't support this scope creation at the time of this being published.
 
-### DockerHub account
+### GAR Account
 
-For the Github Action task to be able to push the image that will be used by your kubernetes cluster you need to have a DockerHub account that can be used for the repositories.
+For the Github Action task to be able to push the image that will be used by your kubernetes cluster you need to have a GAR repo that can be used for the repositories and a service account configured with the SA key available to load into Github.
 
 ### Starting the Github Action tasks.
 
-The Github Actions tasks defined inside [docker.yml](.github/workflows) will be auto started as soon as you commit anything to your new Github repository. However to get it up and running you need to configure the following secrets inside your Github repository (Settings > Secrets):
+The Github Actions tasks defined inside [gke.yaml](.github/workflows) will be auto started as soon as you commit anything to your new Github repository. However to get it up and running you need to configure the following secrets inside your Github repository (Settings > Secrets):
 
 * LW_ACCOUNT_NAME: the name of your Lacework Account for example customer.fra
 * LW_ACCESS_TOKEN: the access token created with the Lacework Inline Scanner integration.

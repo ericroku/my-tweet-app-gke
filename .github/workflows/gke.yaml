@@ -65,14 +65,13 @@ jobs:
           uses: google-github-actions/setup-gcloud@v1
           with:
             version: '>= 363.0.0'
-        - name: Build
-          uses: docker/build-push-action@v4
-          with:
-            context: .
+        - name: Get short SHA
+          run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
         - name: Authenticate with gcloud
           run: |
             gcloud auth configure-docker "us-central1-docker.pkg.dev"
             docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
+            docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
         - name: Lacework Vulnscanning  
           uses: lacework/lw-scanner-action@v1.3.0 
           with:

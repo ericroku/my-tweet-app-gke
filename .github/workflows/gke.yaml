@@ -75,7 +75,7 @@ jobs:
 
   gke_deploy:
       name: GKE Deployment
-      needs: container_build,lacework_scan    
+      needs: [ container_build,lacework_scan ]    
     
       runs-on: ubuntu-latest
       # Add "id-token" with the intended permissions.

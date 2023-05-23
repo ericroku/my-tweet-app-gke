@@ -1,4 +1,4 @@
-name: Deploy my-tweet-app-lacework to GKE
+name: Deploy my-tweet-app-lacework to GKE with Vuln Scan
 on:
   push:
     branches:

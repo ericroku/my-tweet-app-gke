@@ -80,6 +80,7 @@ jobs:
             SAVE_BUILD_REPORT: true
             BUILD_REPORT_FILE_NAME: lwreport.html
             SCAN_LIBRARY_PACKAGES: true
+            DEBUGGING: true
 
   gke_deploy:
       name: GKE Deployment

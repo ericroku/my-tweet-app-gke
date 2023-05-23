@@ -44,41 +44,14 @@ jobs:
            docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
            docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-           echo "BUILD : HASH BUILD---   $GHA_SHA"
-    
-  lacework_scan:
-      name: Image Vuln Scan
-      needs: container_build
-    
-      runs-on: ubuntu-latest
-      permissions:
-        contents: 'read'
-        id-token: 'write'
-      steps:
-        - name: Use Checkout
-          uses: 'actions/checkout@v3'
-        - id: 'auth'
-          uses: 'google-github-actions/auth@v1'
-          with:
-            credentials_json: '${{ secrets.GKE_SA_KEY }}'
-        - name: Set up Google Cloud SDK
-          uses: google-github-actions/setup-gcloud@v1
-          with:
-            version: '>= 363.0.0'
-        - name: Get short SHA
-          run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-        - name: Authenticate with gcloud
-          run: |
-            gcloud auth configure-docker "us-central1-docker.pkg.dev"
-            docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
-            docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
-        - name: Lacework Vulnscanning  
-          uses: lacework/lw-scanner-action@v1.3.0 
-          with:
+           echo "BUILD : HASH BUILD---   $GHA_SHA"   
+      - name: Lacework Vulnscan  
+        uses: lacework/lw-scanner-action@v1.3.0 
+        with:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
             LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
             IMAGE_NAME: lw-se-int-esix/esixrepo/my-tweet-app-lacework
-            IMAGE_TAG: latest
+            IMAGE_TAG: ${{ env.GHA_SHA }}
             SAVE_RESULTS_IN_LACEWORK: true
             SAVE_BUILD_REPORT: true
             BUILD_REPORT_FILE_NAME: lwreport.html

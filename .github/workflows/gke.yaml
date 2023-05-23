@@ -55,6 +55,12 @@ jobs:
         contents: 'read'
         id-token: 'write'
       steps:
+        - name: Use Checkout
+          uses: 'actions/checkout@v3'
+        - id: 'auth'
+          uses: 'google-github-actions/auth@v1'
+          with:
+            credentials_json: '${{ secrets.GKE_SA_KEY }}'
         - name: Lacework Vulnscanning  
           uses: lacework/lw-scanner-action@v1.2.0 
           with:

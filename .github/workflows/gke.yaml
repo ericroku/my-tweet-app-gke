@@ -41,7 +41,7 @@ jobs:
       - name: Build and push Container Image to GAR
         run: |
            gcloud auth configure-docker "us-central1-docker.pkg.dev"
-           docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest"
+           docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:a672c07"
            docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
            echo "BUILD : HASH BUILD---   $GHA_SHA"   

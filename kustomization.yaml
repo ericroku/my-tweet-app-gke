@@ -5,8 +5,8 @@ resources:
 - services.yaml
 images:
 - name: lw-se-int-esix/esixrepo/my-tweet-app-lacework
-  newTag: f46ed54
+  newTag: latest
 - name: my-tweet-app
   newName: lw-se-int-esix/esixrepo/my-tweet-app-lacework
-  newTag: f46ed54
+  newTag: latest
 

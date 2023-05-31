@@ -38,7 +38,7 @@ jobs:
       - name: Get short SHA
         run: |
            echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-           echo $env.GHA_SHA
+           echo $GHA_SHA
     
       - name: Build and push Container Image to GAR
         run: |
@@ -102,7 +102,7 @@ jobs:
       - name: Deploy
         run: |-
           echo "TAG : ${{ env.GHA_SHA }}"
-          ./kustomize edit set image "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}"
+          ./kustomize edit set image "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GHA_SHA"
           ./kustomize build . | kubectl apply -k .
           kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
           kubectl get services -A -o wide | grep -i my-tweet-app

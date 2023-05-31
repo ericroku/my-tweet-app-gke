@@ -36,7 +36,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
     
       - name: Get short SHA
-        run: echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+        run: |
+           echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+           echo $env.GHA_SHA
     
       - name: Build and push Container Image to GAR
         run: |

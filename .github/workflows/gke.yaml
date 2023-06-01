@@ -44,6 +44,13 @@ jobs:
            # echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
            echo $GHA_SHA
 
+      - id: sets-a-imagetag
+        name: Set image tag to pass to lw scanner
+        run: |
+          imagetag=$GITHUB_SHA
+          echo "::add-mask::$imagetag"
+          echo "$GITHUB_SHA=$imagetag" >> "$GITHUB_OUTPUT"
+
 # Use the following for debug and validation
 #      - name: Call printenv to see all envs
 #        shell: bash

@@ -57,7 +57,7 @@ jobs:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
             LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
             IMAGE_NAME: us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework
-            IMAGE_TAG: latest
+            IMAGE_TAG: ${GITHUB_SHA}
             SAVE_RESULTS_IN_LACEWORK: true
             SAVE_BUILD_REPORT: true
             BUILD_REPORT_FILE_NAME: lwreport.html

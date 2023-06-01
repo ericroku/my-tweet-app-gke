@@ -23,6 +23,9 @@ jobs:
         contents: 'read'
         id-token: 'write'
       steps:
+      - name: Call printenv to see all envs
+        shell: bash
+        run: printenv
       - name: Use Checkout
         uses: 'actions/checkout@v3'
       - id: 'auth'

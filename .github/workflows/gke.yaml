@@ -43,6 +43,7 @@ jobs:
       - id: sets-a-imagetag
         name: Set image tag to pass to lw scanner
         run: |
+          imagetag=$GITHUB_SHA
           echo "::add-mask::$imagetag"
           echo "$GITHUB_SHA=$imagetag" >> "$GITHUB_OUTPUT"
 

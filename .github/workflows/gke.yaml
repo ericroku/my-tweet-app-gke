@@ -48,9 +48,9 @@ jobs:
         run: |
            gcloud auth configure-docker "us-central1-docker.pkg.dev"
            docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-           docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:${{ env.GHA_SHA }}" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
+           docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg GITHUB_REF="$GITHUB_REF".
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-           echo "BUILD : HASH BUILD---   $GHA_SHA"   
+           echo "BUILD : HASH BUILD---   $GHA_SHA $GITHUB_SHA"   
       - name: Lacework Vulnscan  
         uses: lacework/lw-scanner-action@v1.3.0 
         with:
@@ -106,7 +106,7 @@ jobs:
       - name: Deploy
         run: |-
           echo $DEPLOYMENT_NAME $GHA_SHA
-          ./kustomize edit set image us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GHA_SHA
+          ./kustomize edit set image us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA
           ./kustomize build . | kubectl apply -k .
           kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=$DEPLOYMENT_NAME
           kubectl get services -A -o wide | grep -i my-tweet-app

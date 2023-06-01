@@ -10,6 +10,7 @@ env:
   DEPLOYMENT_NAME: my-tweet-app
   REGION: us-central1
   ARTIFACT_REGISTRY: lw-se-int-esix/esixrepo
+  # creating the following variable for use in different steps
   IMAGETAG: ${{ github.GITHUB_SHA}}
 
 
@@ -19,7 +20,6 @@ jobs:
       name: Image Build
     
       runs-on: ubuntu-latest
-      # Add "id-token" with the intended permissions.
       permissions:
         contents: 'read'
         id-token: 'write'
@@ -36,28 +36,22 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
     
-      - name: Get short SHA
+      - name: Get short SHA and Print It
         run: |
            echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-           echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
+    # echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
            echo $GHA_SHA
-      
-      - id: sets-a-imagetag
-        name: Set image tag to pass to lw scanner
-        run: |
-          imagetag=$GITHUB_SHA
-          echo "::add-mask::$imagetag"
-          echo "$GITHUB_SHA=$imagetag" >> "$GITHUB_OUTPUT"
 
-      - name: Call printenv to see all envs
-        shell: bash
-        run: printenv
+# Use the following for debug and validation
+#      - name: Call printenv to see all envs
+#        shell: bash
+#        run: printenv
     
       - name: Build and push Container Image to GAR
         run: |
            gcloud auth configure-docker "us-central1-docker.pkg.dev"
            docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-           docker build --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg GITHUB_REF="$GITHUB_REF" .
+           docker build --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
            echo "BUILD : HASH BUILD---   $GHA_SHA $GITHUB_SHA"   
       - name: Lacework Vulnscan  
@@ -66,6 +60,7 @@ jobs:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
             LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
             IMAGE_NAME: us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework
+            # Default github environment variable wouldnt work here - stuffing imagetag as the TAG           
             IMAGE_TAG: ${{ env.IMAGETAG }}
             SAVE_RESULTS_IN_LACEWORK: true
             SAVE_BUILD_REPORT: true
@@ -78,7 +73,6 @@ jobs:
       needs: container_build   
     
       runs-on: ubuntu-latest
-      # Add "id-token" with the intended permissions.
       permissions:
         contents: 'read'
         id-token: 'write'
@@ -90,9 +84,9 @@ jobs:
         with:
           credentials_json: '${{ secrets.GKE_SA_KEY }}'
       
-      - name: Call printenv to see all envs
-        shell: bash
-        run: printenv
+      # - name: Call printenv to see all envs
+      #  shell: bash
+      #  run: printenv
 
       - id: 'get-credentials'
         uses: 'google-github-actions/get-gke-credentials@v1'

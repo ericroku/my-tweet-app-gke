@@ -48,7 +48,7 @@ jobs:
         run: |
            gcloud auth configure-docker "us-central1-docker.pkg.dev"
            docker pull "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
-           docker build -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" -t "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg GITHUB_REF="$GITHUB_REF".
+           docker build --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" --build-arg GITHUB_SHA="$GITHUB_SHA" --build-arg GITHUB_REF="$GITHUB_REF" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
            echo "BUILD : HASH BUILD---   $GHA_SHA $GITHUB_SHA"   
       - name: Lacework Vulnscan  

@@ -41,7 +41,7 @@ jobs:
       - name: Get short SHA and Print It
         run: |
            echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-           # echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
+           # This pushes imagetag variable with the build SHA out to env
            echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
            echo $GHA_SHA
 

@@ -10,6 +10,7 @@ env:
   DEPLOYMENT_NAME: my-tweet-app
   REGION: us-central1
   ARTIFACT_REGISTRY: lw-se-int-esix/esixrepo
+  IMAGETAG: ${{ env.$GITHUB_SHA}}
 
 
 
@@ -64,7 +65,7 @@ jobs:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 
             LW_ACCESS_TOKEN: ${{ secrets.LW_ACCESS_TOKEN }}
             IMAGE_NAME: us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework
-            IMAGE_TAG: ${{ steps.sets-a-imagetag.outputs.imagetag }}
+            IMAGE_TAG: ${{ env.IMAGETAG }}
             SAVE_RESULTS_IN_LACEWORK: true
             SAVE_BUILD_REPORT: true
             BUILD_REPORT_FILE_NAME: lwreport.html

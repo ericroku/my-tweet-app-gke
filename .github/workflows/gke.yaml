@@ -35,11 +35,13 @@ jobs:
     
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
-    
+        with:
+          version: '>= 363.0.0'
+
       - name: Get short SHA and Print It
         run: |
            echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
-    # echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
+           # echo "IMAGETAG=${GITHUB_SHA}" >> $GITHUB_ENV
            echo $GHA_SHA
 
 # Use the following for debug and validation

@@ -57,7 +57,7 @@ jobs:
            docker build --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
            echo "BUILD : HASH BUILD---   $GHA_SHA $GITHUB_SHA"   
-      - name: Lacework Scanner for Vulnerabilities
+      - name: Lacework Scanner for Vulnerabilities and Policies
         uses: lacework/lw-scanner-action@v1.3.0 
         with:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 

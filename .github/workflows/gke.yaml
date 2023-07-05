@@ -38,7 +38,7 @@ jobs:
         with:
           version: '>= 363.0.0'
 
-      - name: Get short SHA and Print It
+      - name: Get short SHA and Output
         run: |
            echo "GHA_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
            # This pushes imagetag variable with the build SHA out to env
@@ -57,7 +57,7 @@ jobs:
            docker build --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:$GITHUB_SHA" --tag "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework:latest" .
            docker push --all-tags "us-central1-docker.pkg.dev/lw-se-int-esix/esixrepo/my-tweet-app-lacework"
            echo "BUILD : HASH BUILD---   $GHA_SHA $GITHUB_SHA"   
-      - name: Lacework Vulnscan  
+      - name: Lacework Scanner for Vulnerabilities
         uses: lacework/lw-scanner-action@v1.3.0 
         with:
             LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }} 

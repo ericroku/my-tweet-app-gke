@@ -1,0 +1,26 @@
+service:
+  name: Tweet-App
+  identifier: TweetApp
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      manifests:
+        - manifest:
+            identifier: k8syamls
+            type: K8sManifest
+            spec:
+              store:
+                type: Github
+                spec:
+                  connectorRef: esixtweetconnector
+                  gitFetchType: Branch
+                  paths:
+                    - deployment/deployment.yaml
+                    - deployment/services.yaml
+                  repoName: my-tweet-app-gke
+                  branch: main
+              skipResourceVersioning: false
+              enableDeclarativeRollback: false
+  gitOpsEnabled: false
+  orgIdentifier: default
+  projectIdentifier: GKEApp

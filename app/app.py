@@ -9,15 +9,13 @@ app = Flask(__name__)
 
 app_name = 'Rock n roll times ' 
 
+
 print(app_name)
 
 
 @app.route('/')
 def index():
     images = [
- #       url_for('static', filename='beachops-1.png'),
- #       url_for('static', filename='beachops-2.png'),
- #       url_for('static', filename='norules-1.png'),
         url_for('static', filename='cust-logo.png'),
         url_for('static', filename='norules-2.png'),
     ]
